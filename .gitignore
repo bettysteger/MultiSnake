@@ -5,4 +5,5 @@ bin-debug/*
 
 Thumbs.db
 .DS_Store
-
+/.settings/
+/html-template/
