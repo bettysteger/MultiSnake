@@ -1,0 +1,8 @@
+bin-debug/*
+
+.project
+.actionScriptProperties
+
+Thumbs.db
+.DS_Store
+
