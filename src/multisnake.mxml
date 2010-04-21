@@ -3,9 +3,21 @@
 			   xmlns:s="library://ns.adobe.com/flex/spark" 
 			   xmlns:mx="library://ns.adobe.com/flex/mx" minWidth="955" minHeight="600">
 	<fx:Style source="multisnake.css"/>
-	<fx:Declarations>
-		<!-- Place non-visual elements (e.g., services, value objects) here -->
-	</fx:Declarations>
+
+	<fx:Script>
+		<![CDATA[
+			import game.Game;
+			
+			import mx.core.UIComponent;
+			private var game:Game;
+			
+			private function startGame():void {
+				currentState="Game";
+				game = new Game;
+				gameContainer.addChild(game);
+			}
+		]]>
+	</fx:Script>
 	
 	<s:states>
 		<s:State name="Start"/>
@@ -14,9 +26,9 @@
 	
 	<s:VGroup includeIn="Start" height="100%" width="100%" verticalAlign="middle">
 		<s:HGroup width="100%" horizontalAlign="center">
-			<s:Button  label="Start Game" width="591" height="157" x="275" click="currentState='Game'"/>
+			<s:Button  label="Start Game" width="591" height="157" x="275" click="startGame()"/>
 		</s:HGroup>
 	</s:VGroup>
 	
-	<s:BorderContainer includeIn="Game" width="100%" height="100%" />
+	<mx:UIComponent width="100%" height="100%" includeIn="Game" id="gameContainer" />
 </s:Application>
