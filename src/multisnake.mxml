@@ -8,8 +8,13 @@
 		<![CDATA[
 			import game.Game;
 			
+			import mx.core.FlexGlobals;
 			import mx.core.UIComponent;
 			private var game:Game;
+			
+			private function fullscreen():void {
+				//FlexGlobals.topLevelApplication.stage.displayState = StageDisplayState.FULL_SCREEN;
+			}
 			
 			private function startGame():void {
 				currentState="Game";
@@ -26,7 +31,7 @@
 	
 	<s:VGroup includeIn="Start" height="100%" width="100%" verticalAlign="middle">
 		<s:HGroup width="100%" horizontalAlign="center">
-			<s:Button  label="Start Game" width="591" height="157" x="275" click="startGame()"/>
+			<s:Button  label="Start Game" width="591" height="157" x="275" click="fullscreen();startGame();"/>
 		</s:HGroup>
 	</s:VGroup>
 	
