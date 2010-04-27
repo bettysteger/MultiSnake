@@ -11,9 +11,12 @@ package game
 	{
 		private var last_frame_time:Number;
 		private var gamefield:GameField;
+		private var snake:Snake;
 		
 		public function Game()
 		{
+			snake = new Snake(1,4,0,0,0x00ff00,false);
+			addChild(snake);
 			addEventListener(Event.ADDED_TO_STAGE, function():void {
 				stage.addEventListener(Event.ENTER_FRAME, enterFrameHandler);
 			});

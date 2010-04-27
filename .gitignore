@@ -2,6 +2,7 @@ bin-debug/*
 
 .project
 .actionScriptProperties
+.flexProperties
 
 Thumbs.db
 .DS_Store
