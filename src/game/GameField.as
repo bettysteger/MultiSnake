@@ -14,8 +14,9 @@ package game
 		[Embed(source="../assets/background.jpg")]
 		private var background:Class;
 		private var backgroundImage:Bitmap = new background;
-		private var mywidth = FlexGlobals.topLevelApplication.stage.width;
-		private var myheight = FlexGlobals.topLevelApplication.stage.height;
+		private var mywidth:int = FlexGlobals.topLevelApplication.stage.width;
+		private var myheight:int = FlexGlobals.topLevelApplication.stage.height;
+		private var snake:Snake;
 		
 		public function GameField()
 		{
@@ -23,11 +24,13 @@ package game
 			backgroundImage.height = myheight;
 			backgroundImage.smoothing=true;
 			addChild(backgroundImage);
+			snake = new Snake(1,4,300,300,0x00ff00,false);
+			addChild(snake);
 		}
 		
 		public function update(dt:Number):void
 		{
-			
+			snake.update(dt);
 		}
 		
 		public function draw():void
