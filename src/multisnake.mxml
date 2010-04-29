@@ -20,6 +20,11 @@
 				currentState="Game";
 				game = new Game;
 				gameContainer.addChild(game);
+				game
+			}
+			
+			public function endGame():void {
+				currentState="Scores";
 			}
 		]]>
 	</fx:Script>
@@ -27,6 +32,7 @@
 	<s:states>
 		<s:State name="Start"/>
 		<s:State name="Game"/>
+		<s:State name="Scores"/>
 	</s:states>
 	
 	<s:VGroup includeIn="Start" height="100%" width="100%" verticalAlign="middle">
@@ -36,4 +42,13 @@
 	</s:VGroup>
 	
 	<mx:UIComponent width="100%" height="100%" includeIn="Game" id="gameContainer" />
+	
+	<s:Group includeIn="Scores" width="100%" height="100%">
+		<mx:Image includeIn="Scores" source="../assets/stairs.png" horizontalCenter="0" verticalCenter="44"/>
+		<mx:Image includeIn="Scores" x="582" y="288" source="../assets/snake_blue.png"/>
+		<mx:Image includeIn="Scores" x="413" y="268" source="../assets/snake_green.png"/>
+		<mx:Image includeIn="Scores" x="504" y="246" source="../assets/snake_red.png"/>
+		<mx:Image includeIn="Scores" x="788" y="349" source="../assets/snake_yellow.png"/>
+		<s:Label includeIn="Scores" text="Congratulations!" horizontalCenter="0" verticalCenter="-196" fontFamily="Arial"/>
+	</s:Group>
 </s:Application>

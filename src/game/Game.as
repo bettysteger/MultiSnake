@@ -35,7 +35,6 @@ package game
 		
 		private function update(dt:Number):void 
 		{
-			trace(dt);
 			gamefield.update(dt);
 			gamefield.draw();
 		}
