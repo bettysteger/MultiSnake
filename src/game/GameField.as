@@ -5,6 +5,7 @@ package game
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.KeyboardEvent;
+	import flash.events.MouseEvent;
 	import flash.geom.Matrix;
 	import flash.geom.Rectangle;
 	import flash.utils.ByteArray;
@@ -22,6 +23,7 @@ package game
 		private var mywidth:int = FlexGlobals.topLevelApplication.stage.width;
 		private var myheight:int = FlexGlobals.topLevelApplication.stage.height;
 		private var writingPixels:ByteArray;
+		private var _players:Array;
 		
 		public static var GAME_END:String = "GAME_END";
 		
@@ -41,19 +43,31 @@ package game
 			addEventListener(Event.ADDED_TO_STAGE, function():void {
 				stage.addEventListener(KeyboardEvent.KEY_DOWN, keyDownHandler);
 			});
+
 		}
 		
+		public function get players():Array
+		{
+			_players.sort(function(a:Snake, b:Snake):Number {
+				if(a.score > b.score) {
+					return 1;
+				} else if(a.score < b.score) {
+					return -1;
+				} else  {
+					//aPrice == bPrice
+					return 0;
+				}
+			});
+
+			return _players;
+		}
+
 		public function keyDownHandler(e:KeyboardEvent):void
 		{
 			if(e.keyCode == 27) //ESC Key
 			{
 				FlexGlobals.topLevelApplication.endGame();
 			}
-		}
-		
-		public function end():void
-		{
-			
 		}
 		
 		public function update(dt:Number):void

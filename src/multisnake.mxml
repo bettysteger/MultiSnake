@@ -43,12 +43,12 @@
 	
 	<mx:UIComponent width="100%" height="100%" includeIn="Game" id="gameContainer" />
 	
-	<s:Group includeIn="Scores" width="100%" height="100%">
+	<s:Group includeIn="Scores" horizontalCenter="-0" verticalCenter="0">
 		<mx:Image includeIn="Scores" source="../assets/stairs.png" horizontalCenter="0" verticalCenter="44"/>
-		<mx:Image includeIn="Scores" x="582" y="288" source="../assets/snake_blue.png"/>
-		<mx:Image includeIn="Scores" x="413" y="268" source="../assets/snake_green.png"/>
-		<mx:Image includeIn="Scores" x="504" y="246" source="../assets/snake_red.png"/>
-		<mx:Image includeIn="Scores" x="788" y="349" source="../assets/snake_yellow.png"/>
+		<mx:Image includeIn="Scores" x="401" y="208" source="../assets/snake_blue.png"/>
+		<mx:Image includeIn="Scores" x="243" y="187" source="../assets/snake_green.png"/>
+		<mx:Image includeIn="Scores" x="323" y="167" source="../assets/snake_red.png"/>
+		<mx:Image includeIn="Scores" x="551" y="263" source="../assets/snake_yellow.png"/>
 		<s:Label includeIn="Scores" text="Congratulations!" horizontalCenter="0" verticalCenter="-196" fontFamily="Arial"/>
 	</s:Group>
 </s:Application>

@@ -12,6 +12,8 @@ package game
 	
 	public class Snake extends Sprite
 	{
+		private var _score:int;
+		
 		public function Snake(player:uint, startlength:uint, x:Number, y:Number, color:uint, dead:Boolean)
 		{
 			var elements:Array = new Array;
@@ -39,5 +41,15 @@ package game
 			
 		}
 		
+		public function get score():int
+		{
+			return _score;
+		}
+
+		public function set score(value:int):void
+		{
+			_score = value;
+		}
+
 	}
 }
