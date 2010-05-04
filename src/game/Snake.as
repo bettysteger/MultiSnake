@@ -14,16 +14,16 @@ package game
 	
 	public class Snake extends Sprite
 	{
+		private var _score:int;
 		private var elements:Array = new Array;
 		private var element:ShapeSprite;
 		private var GameSpeed:Number = 0.1;
 		public var rightKey:Number = 77;
 		public var leftKey:Number = 75;
-		private var head:Point = new Point(300,300);
+		private var _head:Point = new Point(300,300);
 		private var tail:Point = new Point(100,100);
-		private var direction:Point = new Point(head.x-tail.x,head.y-tail.y);
+		private var direction:Point = new Point(_head.x-tail.x,_head.y-tail.y);
 		private var keyPressed:Boolean = false;
-		
 		
 		public function Snake(player:uint, startlength:uint, x:Number, y:Number, color:uint, dead:Boolean)
 		{	
@@ -54,6 +54,13 @@ package game
 			
 		}
 			
+		// returns the position of the head of the snake
+		public function get getPosition():Point
+		{
+			var point:Point = new Point(elements[0].x,elements[0].y);
+			return point;
+		}
+
 		public function update(dt:int):void
 		{
 			for (var i:int = 0; i < elements.length; i++)
@@ -87,5 +94,15 @@ package game
 		}
 			
 		
+		public function get score():int
+		{
+			return _score;
+		}
+
+		public function set score(value:int):void
+		{
+			_score = value;
+		}
+
 	}
 }

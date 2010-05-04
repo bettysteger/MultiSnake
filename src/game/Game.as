@@ -33,10 +33,6 @@ package game
 		
 		private function update(dt:Number):void 
 		{
-<<<<<<< HEAD
-			//trace(dt);
-=======
->>>>>>> ff730d25653241539f61069396882d44999027a1
 			gamefield.update(dt);
 			gamefield.draw();
 		}
