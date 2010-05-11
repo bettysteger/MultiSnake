@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
-			   xmlns:s="library://ns.adobe.com/flex/spark" 
-			   xmlns:mx="library://ns.adobe.com/flex/mx" minWidth="955" minHeight="600">
+<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					   xmlns:s="library://ns.adobe.com/flex/spark" 
+					   xmlns:mx="library://ns.adobe.com/flex/mx"
+					   applicationComplete="creationcompl()">
 	<fx:Style source="multisnake.css"/>
 
 	<fx:Script>
@@ -12,18 +13,36 @@
 			import mx.core.FlexGlobals;
 			import mx.core.UIComponent;
 			private var theGame:Game;
+			private var _gameStopped:Boolean = true;
+			public var window_width:int;
+			public var window_height:int;
 			
 			private function fullscreen():void {
-				FlexGlobals.topLevelApplication.stage.displayState = StageDisplayState.FULL_SCREEN;
+				FlexGlobals.topLevelApplication.stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
+			}
+			
+			private function creationcompl():void {
+				fullscreen();
+				window_width=stage.width;
+				window_height=stage.height;
+				stage.addEventListener(KeyboardEvent.KEY_DOWN, function(e:KeyboardEvent):void {
+					if(e.keyCode == 9 && _gameStopped) { // TABULATOR KEY
+						callLater(startGame);
+					}
+					if(e.keyCode == 49) // 1 KEY
+						fullscreen();					
+				});
 			}
 			
 			private function startGame():void {
 				currentState="Game";
 				theGame = new Game;
+				_gameStopped = false;
 				gameContainer.addChild(theGame);
 			}
 			
 			public function endGame():void {
+				_gameStopped=true;
 				currentState="Scores";
 				var players:Array = theGame.getPlayers();
 				for(var i:int;i<players.length;i++) {
@@ -86,11 +105,12 @@
 	<mx:UIComponent width="100%" height="100%" includeIn="Game" id="gameContainer" />
 	
 	<s:Group includeIn="Scores" horizontalCenter="-0" verticalCenter="0">
-		<mx:Image includeIn="Scores" source="../assets/stairs.png" horizontalCenter="0" verticalCenter="44"/>
-		<mx:Image id="blue_player" includeIn="Scores" x="401" y="208" source="../assets/snake_blue.png"/>
-		<mx:Image id="green_player" includeIn="Scores" x="243" y="187" source="../assets/snake_green.png"/>
-		<mx:Image id="red_player" includeIn="Scores" x="323" y="167" source="../assets/snake_red.png"/>
-		<mx:Image id="yellow_player" includeIn="Scores" x="551" y="263" source="../assets/snake_yellow.png"/>
+		<mx:Image includeIn="Scores" source="@Embed(source='../assets/stairs.png')" horizontalCenter="0" verticalCenter="44"/>
+		<mx:Image id="blue_player" includeIn="Scores" x="401" y="208" source="@Embed(source='../assets/snake_blue.png')"/>
+		<mx:Image id="green_player" includeIn="Scores" x="243" y="187" source="@Embed(source='../assets/snake_green.png')"/>
+		<mx:Image id="red_player" includeIn="Scores" x="323" y="167" source="@Embed(source='../assets/snake_red.png')"/>
+		<mx:Image id="yellow_player" includeIn="Scores" x="551" y="263" source="@Embed(source='../assets/snake_yellow.png')"/>
 		<s:Label includeIn="Scores" text="Congratulations!" horizontalCenter="0" verticalCenter="-196" fontFamily="Arial"/>
 	</s:Group>
-</s:Application>
+	<s:Button includeIn="Scores" label="Restart Game" fontSize="15" horizontalCenter="0" bottom="20" click="startGame()"/>
+</s:WindowedApplication>

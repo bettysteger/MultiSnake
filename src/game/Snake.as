@@ -77,6 +77,11 @@ package game
 			elements[0].x = pos.x;
 			elements[0].y = pos.y;
 		}
+		
+		public function isDead():Boolean
+		{
+			return _dead;
+		}
 
 		public function update(dt:int):void
 		{		

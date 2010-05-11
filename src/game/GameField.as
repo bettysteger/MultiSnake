@@ -28,10 +28,11 @@ package game
 		private var backgroundImage:Bitmap = new background;
 		private var hammihammiImage:Bitmap = new hammihammi;
 		
-		private var mywidth:int = FlexGlobals.topLevelApplication.stage.width;
-		private var myheight:int = FlexGlobals.topLevelApplication.stage.height;
+		private var mywidth:int = FlexGlobals.topLevelApplication.window_width;
+		private var myheight:int = FlexGlobals.topLevelApplication.window_height;
 		private var writingPixels:ByteArray;
 		private var _players:Array;
+		private var _gameEnded:Boolean = false;
 		
 //		private var score_label_p1:Label;
 //		private var score_label_p2:Label;
@@ -107,19 +108,33 @@ package game
 
 		public function keyDownHandler(e:KeyboardEvent):void
 		{
-			trace(e.keyCode);
-			if(e.keyCode == 27) //ESC Key
+			if(e.keyCode == 50) //2 Key
 			{
 				FlexGlobals.topLevelApplication.endGame();
+				_gameEnded = true;
 			}
 		}
 		
 		// update gamefield
 		public function update(dt:Number):void
 		{
+			
+			if(_gameEnded)
+				return;
+			
+			// check if at least N-1 snakes are alive
+			var dead_count:int = 0;
+			
 			//update snakes
 			for(var i:int=0;i<_players.length;i++)
 			{
+				// is snake dead?
+				if(Snake(_players[i]).isDead())
+				{
+					dead_count++;
+					continue;
+				}
+				
 				// update pos
 				_players[i].update(dt);
 				
@@ -138,6 +153,13 @@ package game
 					Snake(_players[i]).position = new Point(pos.x,0);
 			}
 			
+			// end game if N-1 snakes are dead
+			if(dead_count >= _players.length-1)
+			{
+				FlexGlobals.topLevelApplication.endGame();
+				_gameEnded=true;
+			}
+				
 			//collision detection with hammi hammi
 			for(var i:int=0;i<_players.length;i++) 
 			{
