@@ -18,13 +18,15 @@ package game
 		private var elements:Array = new Array;
 		private var element:ShapeSprite;
 		private var GameSpeed:Number = 0.1;
-		public var rightKey:Number = 77;
-		public var leftKey:Number = 75;
+		public var rightKey:Number = 39;
+		public var leftKey:Number = 37;
 		private var _head:Point = new Point(300,300);
 		private var tail:Point = new Point(100,100);
 		private var direction:Point = new Point(_head.x-tail.x,_head.y-tail.y);
 		private var keyPressed:Boolean = false;
 		public var playerID:String;
+		private var right:Boolean = false, left = false, up = false, down = false;
+		private var keyPressedRight:Boolean = false, keyPressedLeft:Boolean = false;
 		
 		public function Snake(player:uint, startlength:uint, x:Number, y:Number, color:uint, dead:Boolean, id:String)
 		{	
@@ -66,11 +68,51 @@ package game
 
 		public function update(dt:int):void
 		{
+			var counter:int = 0;
+			/*
 			for (var i:int = 0; i < elements.length; i++)
 			{
-				elements[i].x += dt*GameSpeed;
+				if(counter == 0) elements[i].x += dt*GameSpeed; right = true;
+				if(keyPressedLeft) {
+					if (counter < 2)
+						elements[i].y += dt*GameSpeed;
+					else
+						elements[i].x -= dt*GameSpeed;
+					counter++;
+				}else if(keyPressedRight){
+					elements[i].y -= dt*GameSpeed;
+					counter++;
+				}
 			}
+			*/
+/*
+			function VektorDrehen(a: TVektor; phi: Double): TVektor;
+			begin 
+			result.x := cos(arctan(a.y/a.x)+phi);
+			result.y := sin(arctan(a.y/a.x)+phi);
+			end;
+			*/
+				if(counter == 0) right = true;
+				
+				if(keyPressedLeft && right) {
+					if (counter < 2)
+						elements[0].y += dt*GameSpeed;
+					else
+						elements[0].x -= dt*GameSpeed;
+					counter++;
+				}
+				else if(keyPressedRight){
+					down = true;
+					counter++;
+				}
+				
+				if(right) elements[0].x += dt*GameSpeed;
+				if(left) elements[0].x -= dt*GameSpeed;
+				if(up) elements[0].y += dt*GameSpeed;
+				if(down) elements[0].y -= dt*GameSpeed;
+
 			
+			trace(counter);
 		}
 		
 		private function init(e:Event=null):void
@@ -79,21 +121,25 @@ package game
 			
 			stage.addEventListener(KeyboardEvent.KEY_DOWN, keyHandler);
 			stage.addEventListener(KeyboardEvent.KEY_UP, keyHandler);
+			stage.focus = stage;
 		}
 		
 		private function keyHandler(e:KeyboardEvent):void
 		{
-			trace("keyyyy");
 			if(e.type==KeyboardEvent.KEY_DOWN && e.keyCode==rightKey)
 			{
-				trace("rechts");
-				elements[0].y += 10;
+				keyPressedRight = true;
 			}
 			else if(e.type==KeyboardEvent.KEY_DOWN && e.keyCode==leftKey)
 			{
-				trace("links");
-				elements[0].y -= 10;
+				keyPressedLeft = true;
 			}	
+			if(e.type==KeyboardEvent.KEY_UP)
+			{
+				keyPressedRight = false;
+				keyPressedLeft = false;
+			}
+			
 		}
 			
 		
