@@ -14,7 +14,7 @@
 -->
 
 	<!-- The application identifier string, unique to this application. Required. -->
-	<id>Multisnake</id>
+	<id>multisnake</id>
 
 	<!-- Used as the filename for the application. Required. -->
 	<filename>Multisnake</filename>

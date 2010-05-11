@@ -9,6 +9,7 @@ package game
 	import flash.geom.Matrix;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
+	import flash.media.Sound;
 	import flash.utils.ByteArray;
 	
 	import mx.controls.Image;
@@ -38,6 +39,14 @@ package game
 		private var writingPixels:ByteArray;
 		private var _players:Array;
 		private var _gameEnded:Boolean = false;
+		
+		[Embed(source="assets/eat.mp3")]
+		private var sndClass:Class;
+		private var eatSound:Sound = new sndClass();
+		
+		[Embed(source="assets/win.mp3")]
+		private var snd2Class:Class;
+		private var winSound:Sound = new snd2Class();
 		
 //		private var score_label_p1:Label;
 //		private var score_label_p2:Label;
@@ -81,7 +90,7 @@ package game
 			_players.push(new Snake(1,70,50,50,0x00ff00,false,"green",37,39,new Point(1,0))); // LEFT RIGHT
 			_players.push(new Snake(1,70,mywidth-50,myheight-50,0xff0000,false,"red",65,83,new Point(-1,0))); // A S
 			_players.push(new Snake(1,70,50,myheight-50,0xffff00,false,"yellow",71,72,new Point(1,0))); // G H
-			_players.push(new Snake(1,70,mywidth-50,50,0x0000ff,false,"blue",18,17,new Point(-1,0))); // ALT STRG
+			_players.push(new Snake(1,70,mywidth-50,50,0x0000ff,false,"blue",81,87,new Point(-1,0))); // ALT STRG
 			
 			for(var i:int=0;i<_players.length;i++)
 				addChild(_players[i]);
@@ -168,6 +177,7 @@ package game
 			{
 				FlexGlobals.topLevelApplication.endGame();
 				_gameEnded=true;
+				winSound.play();
 				FlexGlobals.topLevelApplication.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyDownHandler);
 			}
 				
@@ -186,6 +196,7 @@ package game
 				{
 					Snake(_players[i]).score += 1;
 					replaceHammiHammi();
+					eatSound.play();
 				}	
 			}
 			
