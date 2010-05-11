@@ -10,6 +10,9 @@ package game
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	import flash.media.Sound;
+	import flash.media.SoundChannel;
+	import flash.media.SoundTransform;
+	import flash.sampler.NewObjectSample;
 	import flash.utils.ByteArray;
 	
 	import mx.controls.Image;
@@ -43,6 +46,11 @@ package game
 		[Embed(source="assets/eat.mp3")]
 		private var sndClass:Class;
 		private var eatSound:Sound = new sndClass();
+
+		[Embed(source="assets/background.mp3")]
+		private var bkgsndClass:Class;
+		private var backgroundSound:Sound = new bkgsndClass();
+		private var backgroundChannel:SoundChannel = new SoundChannel();
 		
 		[Embed(source="assets/win.mp3")]
 		private var snd2Class:Class;
@@ -57,7 +65,10 @@ package game
 		
 		public function GameField()
 		{
-			
+			backgroundChannel = backgroundSound.play(0,99999);
+			var soundTransform:SoundTransform = backgroundChannel.soundTransform;
+			soundTransform.volume=0.3;			
+			backgroundChannel.soundTransform = soundTransform;
 			// rescale background
 			var tmp:BitmapData = new BitmapData(mywidth,myheight);		
 			var scaleMatrix:Matrix=new Matrix();
@@ -177,6 +188,7 @@ package game
 			{
 				FlexGlobals.topLevelApplication.endGame();
 				_gameEnded=true;
+				backgroundChannel.stop();
 				winSound.play();
 				FlexGlobals.topLevelApplication.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyDownHandler);
 			}
