@@ -9,11 +9,13 @@ package game
 	import flash.geom.Matrix;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
+	import flash.media.Sound;
 	import flash.utils.ByteArray;
 	
 	import mx.controls.Image;
 	import mx.controls.Label;
 	import mx.core.FlexGlobals;
+	
 	import spark.primitives.BitmapImage;
 	
 	public class GameField extends Sprite
@@ -32,6 +34,14 @@ package game
 		private var writingPixels:ByteArray;
 		private var _players:Array;
 		private var _gameEnded:Boolean = false;
+		
+		[Embed(source="assets/eat.mp3")]
+		private var sndClass:Class;
+		private var eatSound:Sound = new sndClass();
+		
+		[Embed(source="assets/win.mp3")]
+		private var snd2Class:Class;
+		private var winSound:Sound = new snd2Class();
 		
 //		private var score_label_p1:Label;
 //		private var score_label_p2:Label;
@@ -163,6 +173,7 @@ package game
 			{
 				FlexGlobals.topLevelApplication.endGame();
 				_gameEnded=true;
+				winSound.play();
 				FlexGlobals.topLevelApplication.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyDownHandler);
 			}
 				
@@ -181,6 +192,7 @@ package game
 				{
 					Snake(_players[i]).score += 1;
 					replaceHammiHammi();
+					eatSound.play();
 				}	
 			}
 			

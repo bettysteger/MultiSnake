@@ -1,10 +1,12 @@
 // First Player can Start a new game
-Key.Q = Joystick.Pov1Left
-Key.W = Joystick.Pov1Right
+Key.A = Joystick.Pov1Left
+Key.S = Joystick.Pov1Right
 Key.Tab = Joystick.Button10
+Key.NUMPAD2 = Joystick.Button9
 
+ if(Joystick2.Attached) then
 
+Key.G = Joystick2.Pov1Left
+Key.H = Joystick2.Pov1Right
 
-/*Key.E = Joystick2.Pov1Left
-Key.R = Joystick2.Pov1Right
-  */
+endif

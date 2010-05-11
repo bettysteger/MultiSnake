@@ -7,6 +7,8 @@ package game
 	import flash.events.KeyboardEvent;
 	import flash.events.MouseEvent;
 	import flash.geom.Point;
+	import flash.media.Sound;
+	import flash.net.URLRequest;
 	
 	import utils.BodySprite;
 	import utils.HeadSprite;
@@ -25,6 +27,10 @@ package game
 		public var leftKey:Number;
 		public var playerID:String;
 		private var keyPressedRight:Boolean = false, keyPressedLeft:Boolean = false;
+		
+		[Embed(source="assets/crash.mp3")]
+		public var sndClass:Class;
+		public var dieSound:Sound = new sndClass();
 		
 		public function Snake(player:uint, startlength:uint, startX:Number, startY:Number, color:uint, dead:Boolean, id:String, leftkey:int, rightkey:int, startdirection:Point)
 		{	
@@ -180,6 +186,8 @@ package game
 		
 		public function die():void
 		{
+			if(!_dead)
+				dieSound.play(0,0,null);
 			_dead=true;
 		}
 		
