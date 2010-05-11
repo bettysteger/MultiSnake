@@ -18,6 +18,7 @@ package game
 		private var elements:Array = new Array;
 		private var element:ShapeSprite;
 		private var GameSpeed:Number = 0.1;
+		private var direction:Point;
 		public var rightKey:Number = 39;
 		public var leftKey:Number = 37;
 		public var playerID:String;
@@ -26,6 +27,7 @@ package game
 		public function Snake(player:uint, startlength:uint, x:Number, y:Number, color:uint, dead:Boolean, id:String)
 		{	
 			playerID=id;
+			direction = new Point(1,0);
 			
 			if (stage)
 				init();
@@ -62,32 +64,29 @@ package game
 		}
 
 		public function update(dt:int):void
-		{	
-			
-			
-			var angle:Number = 10;
+		{		
+			var angle:Number = 0.003*dt;
 			var counter:int = 0;
 			
 			if(keyPressedLeft) {
-				
-
-				
-				for(var i:int = 0; i<elements.length; i++) {
-					var head:Point = new Point(elements[0].x,elements[0].y);
-					var tail:Point = new Point(elements[elements.length-1].x,elements[elements.length-1].y);
-					var direction:Point = new Point(head.x-tail.x,head.y-tail.y);
-
-					elements[i].x /= Math.cos(Math.atan(direction.y/direction.x)+angle);
-					elements[i].y /= Math.sin(Math.atan(direction.y/direction.x)+angle);
-				}
-
-				//elements[0].y += dt*GameSpeed;
-
+				direction.y = Math.cos(Math.atan2(direction.x,direction.y)+angle);
+				direction.x = Math.sin(Math.atan2(direction.x,direction.y)+angle);
 			}
 			else if(keyPressedRight){
-				//counter++;
+				direction.y = Math.cos(Math.atan2(direction.x,direction.y)-angle);
+				direction.x = Math.sin(Math.atan2(direction.x,direction.y)-angle);
 			}
-			trace(elements[0].y);
+			
+			elements[0].x += direction.x*dt*GameSpeed;
+			elements[0].y += direction.y*dt*GameSpeed;
+			
+			for(var i:int=1; i<elements.length; i++) {
+				
+				elements[i].x = elements[i-1].x;
+				elements[i].y = elements[i-1].y;
+			}
+
+			trace(angle);
 		}
 		
 		private function init(e:Event=null):void
