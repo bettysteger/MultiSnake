@@ -14,7 +14,7 @@
 			private var theGame:Game;
 			
 			private function fullscreen():void {
-				//FlexGlobals.topLevelApplication.stage.displayState = StageDisplayState.FULL_SCREEN;
+				FlexGlobals.topLevelApplication.stage.displayState = StageDisplayState.FULL_SCREEN;
 			}
 			
 			private function startGame():void {
@@ -27,7 +27,7 @@
 				currentState="Scores";
 				var players:Array = theGame.getPlayers();
 				for(var i:int;i<players.length;i++) {
-					
+					trace("PLACE "+i+": "+Snake(players[i]).playerID+" with score: "+Snake(players[i]).score);
 					var x:int;
 					var y:int;
 					

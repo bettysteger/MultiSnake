@@ -73,8 +73,10 @@ package game
 			
 			// create snakes
 			_players = new Array;
-			_players.push(new Snake(1,70,300,300,0x00ff00,false,"green",37,39,new Point(1,0)));
-			_players.push(new Snake(1,70,700,500,0xff0000,false,"red",65,83,new Point(-1,0)));
+			_players.push(new Snake(1,70,50,50,0x00ff00,false,"green",37,39,new Point(1,0))); // LEFT RIGHT
+			_players.push(new Snake(1,70,mywidth-50,myheight-50,0xff0000,false,"red",65,83,new Point(-1,0))); // A S
+			_players.push(new Snake(1,70,50,myheight-50,0xffff00,false,"yellow",71,72,new Point(1,0))); // G H
+			_players.push(new Snake(1,70,mywidth-50,50,0x0000ff,false,"blue",18,17,new Point(-1,0))); // ALT STRG
 			
 			for(var i:int=0;i<_players.length;i++)
 				addChild(_players[i]);
@@ -91,9 +93,9 @@ package game
 		{
 			_players.sort(function(a:Snake, b:Snake):Number {
 				if(a.score > b.score) {
-					return 1;
-				} else if(a.score < b.score) {
 					return -1;
+				} else if(a.score < b.score) {
+					return 1;
 				} else  {
 					//aPrice == bPrice
 					return 0;
@@ -105,6 +107,7 @@ package game
 
 		public function keyDownHandler(e:KeyboardEvent):void
 		{
+			trace(e.keyCode);
 			if(e.keyCode == 27) //ESC Key
 			{
 				FlexGlobals.topLevelApplication.endGame();
