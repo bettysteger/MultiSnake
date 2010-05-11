@@ -24,30 +24,20 @@ package game
 		public var playerID:String;
 		private var keyPressedRight:Boolean = false, keyPressedLeft:Boolean = false;
 		
-		public function Snake(player:uint, startlength:uint, x:Number, y:Number, color:uint, dead:Boolean, id:String)
+		public function Snake(player:uint, startlength:uint, startX:Number, startY:Number, color:uint, dead:Boolean, id:String)
 		{	
 			playerID=id;
 			direction = new Point(1,0);
 			
-			if (stage)
-				init();
-			else
-				addEventListener(Event.ADDED_TO_STAGE, init);
+			addEventListener(Event.ADDED_TO_STAGE, init);
 		
 			for (var i:int = 0; i < startlength; i++)
 			{
-//				if (i == 0)
-//					element = new HeadSprite();
-//				else
-					element = new BodySprite();
+				element = new BodySprite();
 				
 				elements[i] = element;
-				//Start position
-				element.x = x;
-				element.y = y;
-				
-//				element.x -= element.width*i;
-				
+				element.x = startX;
+				element.y = startY;
 				element.color = color;
 				
 				addChild(element);
@@ -105,13 +95,17 @@ package game
 			{
 				keyPressedRight = true;
 			}
-			else if(e.type==KeyboardEvent.KEY_DOWN && e.keyCode==leftKey)
+			if(e.type==KeyboardEvent.KEY_DOWN && e.keyCode==leftKey)
 			{
 				keyPressedLeft = true;
-			}	
-			if(e.type==KeyboardEvent.KEY_UP)
+			}
+			
+			if(e.type==KeyboardEvent.KEY_UP && e.keyCode==rightKey)
 			{
 				keyPressedRight = false;
+			}
+			if(e.type==KeyboardEvent.KEY_UP && e.keyCode==leftKey)
+			{
 				keyPressedLeft = false;
 			}
 			
