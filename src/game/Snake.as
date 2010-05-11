@@ -20,11 +20,17 @@ package game
 		private var GameSpeed:Number = 0.1;
 		public var rightKey:Number = 39;
 		public var leftKey:Number = 37;
+		public var playerID:String;
 		private var keyPressedRight:Boolean = false, keyPressedLeft:Boolean = false;
 		
-		public function Snake(player:uint, startlength:uint, x:Number, y:Number, color:uint, dead:Boolean)
+		public function Snake(player:uint, startlength:uint, x:Number, y:Number, color:uint, dead:Boolean, id:String)
 		{	
-			addEventListener(Event.ADDED_TO_STAGE, init);
+			playerID=id;
+			
+			if (stage)
+				init();
+			else
+				addEventListener(Event.ADDED_TO_STAGE, init);
 		
 			for (var i:int = 0; i < startlength; i++)
 			{
