@@ -14,7 +14,6 @@ package game
 	import mx.controls.Image;
 	import mx.controls.Label;
 	import mx.core.FlexGlobals;
-	
 	import spark.primitives.BitmapImage;
 	
 	public class GameField extends Sprite
@@ -90,6 +89,12 @@ package game
 		}
 		
 		// return players sorted by highscore
+
+		public function get gameEnded():Boolean
+		{
+			return _gameEnded;
+		}
+
 		public function get players():Array
 		{
 			_players.sort(function(a:Snake, b:Snake):Number {
@@ -158,6 +163,7 @@ package game
 			{
 				FlexGlobals.topLevelApplication.endGame();
 				_gameEnded=true;
+				FlexGlobals.topLevelApplication.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyDownHandler);
 			}
 				
 			//collision detection with hammi hammi

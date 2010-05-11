@@ -44,6 +44,9 @@
 			public function endGame():void {
 				_gameStopped=true;
 				currentState="Scores";
+				try {
+					gameContainer.removeChild(theGame);
+				}catch(e:Error){}
 				var players:Array = theGame.getPlayers();
 				for(var i:int;i<players.length;i++) {
 					trace("PLACE "+i+": "+Snake(players[i]).playerID+" with score: "+Snake(players[i]).score);

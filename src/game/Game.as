@@ -32,6 +32,8 @@ package game
 			var date:Date = new Date;
 			update(date.time - last_frame_time);
 			last_frame_time = date.time; 
+			if(gamefield.gameEnded)
+					FlexGlobals.topLevelApplication.stage.removeEventListener(Event.ENTER_FRAME, enterFrameHandler);
 		}
 		
 		private function update(dt:Number):void 
