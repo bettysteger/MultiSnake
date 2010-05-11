@@ -17,6 +17,7 @@ package game
 	import mx.core.FlexGlobals;
 	
 	import spark.primitives.BitmapImage;
+	import spark.primitives.Rect;
 	
 	public class GameField extends Sprite
 	{
@@ -25,9 +26,13 @@ package game
 		
 		[Embed(source="../assets/hammihammi.png")]
 		private var hammihammi:Class;
+
+		[Embed(source="../assets/shadow.png")]
+		private var shadow:Class;
 		
 		private var backgroundImage:Bitmap = new background;
 		private var hammihammiImage:Bitmap = new hammihammi;
+		private var shadowImage:Bitmap = new shadow;
 		
 		private var mywidth:int = FlexGlobals.topLevelApplication.window_width;
 		private var myheight:int = FlexGlobals.topLevelApplication.window_height;
@@ -60,8 +65,7 @@ package game
 			tmp.draw(backgroundImage.bitmapData,scaleMatrix);
 			backgroundImage.bitmapData = tmp;
 			
-			var bmp:BitmapData = new BitmapData(20,20,false,0x000000);
-			writingPixels = bmp.getPixels(new Rectangle(0,0,20,20));
+			//writingPixels = shadowImage.bitmapData.getPixels(new Rectangle(0,0,20,20));
 			addChild(backgroundImage);
 			
 			// create hammihammi image
@@ -215,10 +219,10 @@ package game
 		// draw gamefield
 		public function draw():void
 		{
+			// draw snake trails
 			for(var i:int=0;i<_players.length;i++) {
 				var rec:Rectangle = new Rectangle(Snake(_players[i]).getPosition.x,Snake(_players[i]).getPosition.y,15,15);
-				writingPixels.position = 0;
-				backgroundImage.bitmapData.setPixels(rec,writingPixels);
+				backgroundImage.bitmapData.copyPixels(shadowImage.bitmapData,new Rectangle(0,0,20,20),new Point(Snake(_players[i]).getPosition.x,Snake(_players[i]).getPosition.y),null,null,true);
 			}
 		}
 		
