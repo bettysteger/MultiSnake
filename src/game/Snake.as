@@ -20,10 +20,6 @@ package game
 		private var GameSpeed:Number = 0.1;
 		public var rightKey:Number = 39;
 		public var leftKey:Number = 37;
-		private var _head:Point = new Point(300,300);
-		private var tail:Point = new Point(100,100);
-		private var direction:Point = new Point(_head.x-tail.x,_head.y-tail.y);
-		private var right:Boolean = false, left = false, up = false, down = false;
 		private var keyPressedRight:Boolean = false, keyPressedLeft:Boolean = false;
 		
 		public function Snake(player:uint, startlength:uint, x:Number, y:Number, color:uint, dead:Boolean)
@@ -60,52 +56,32 @@ package game
 		}
 
 		public function update(dt:int):void
-		{
-			var counter:int = 0;
-			/*
-			for (var i:int = 0; i < elements.length; i++)
-			{
-				if(counter == 0) elements[i].x += dt*GameSpeed; right = true;
-				if(keyPressedLeft) {
-					if (counter < 2)
-						elements[i].y += dt*GameSpeed;
-					else
-						elements[i].x -= dt*GameSpeed;
-					counter++;
-				}else if(keyPressedRight){
-					elements[i].y -= dt*GameSpeed;
-					counter++;
-				}
-			}
-			*/
-/*
-			function VektorDrehen(a: TVektor; phi: Double): TVektor;
-			begin 
-			result.x := cos(arctan(a.y/a.x)+phi);
-			result.y := sin(arctan(a.y/a.x)+phi);
-			end;
-			*/
-				if(counter == 0) right = true;
-				
-				if(keyPressedLeft && right) {
-					if (counter < 2)
-						elements[0].y += dt*GameSpeed;
-					else
-						elements[0].x -= dt*GameSpeed;
-					counter++;
-				}
-				else if(keyPressedRight){
-					down = true;
-					counter++;
-				}
-				
-				if(right) elements[0].x += dt*GameSpeed;
-				if(left) elements[0].x -= dt*GameSpeed;
-				if(up) elements[0].y += dt*GameSpeed;
-				if(down) elements[0].y -= dt*GameSpeed;
-
+		{	
 			
-			trace(counter);
+			
+			var angle:Number = 10;
+			var counter:int = 0;
+			
+			if(keyPressedLeft) {
+				
+
+				
+				for(var i:int = 0; i<elements.length; i++) {
+					var head:Point = new Point(elements[0].x,elements[0].y);
+					var tail:Point = new Point(elements[elements.length-1].x,elements[elements.length-1].y);
+					var direction:Point = new Point(head.x-tail.x,head.y-tail.y);
+
+					elements[i].x /= Math.cos(Math.atan(direction.y/direction.x)+angle);
+					elements[i].y /= Math.sin(Math.atan(direction.y/direction.x)+angle);
+				}
+
+				//elements[0].y += dt*GameSpeed;
+
+			}
+			else if(keyPressedRight){
+				//counter++;
+			}
+			trace(elements[0].y);
 		}
 		
 		private function init(e:Event=null):void
