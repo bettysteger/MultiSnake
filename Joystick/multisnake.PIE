@@ -1,9 +1,10 @@
 // First Player can Start a new game
 Key.Q = Joystick.Pov1Left
 Key.W = Joystick.Pov1Right
-Key.S = Joystick.Button10
+Key.Tab = Joystick.Button10
+
+
 
 /*Key.E = Joystick2.Pov1Left
 Key.R = Joystick2.Pov1Right
   */
-

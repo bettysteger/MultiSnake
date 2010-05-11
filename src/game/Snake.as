@@ -19,7 +19,7 @@ package game
 		private var _startpos:Point;
 		private var _dead:Boolean=false;
 		private var elements:Array = new Array;
-		private var GameSpeed:Number = 0.1;
+		private var GameSpeed:Number = 0.15;
 		private var direction:Point;
 		public var rightKey:Number;
 		public var leftKey:Number;
@@ -88,7 +88,7 @@ package game
 			if(_dead)
 				return;
 			
-			var angle:Number = 0.002*dt;
+			var angle:Number = 0.003*dt;
 			var counter:int = 0;
 			
 			// steering (rotating the direction)
