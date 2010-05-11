@@ -7,6 +7,7 @@ package game
 	import flash.events.KeyboardEvent;
 	import flash.events.MouseEvent;
 	import flash.geom.Matrix;
+	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	import flash.utils.ByteArray;
 	
@@ -49,7 +50,7 @@ package game
 			tmp.draw(backgroundImage.bitmapData,scaleMatrix);
 			backgroundImage.bitmapData = tmp;
 			
-			var bmp:BitmapData = new BitmapData(20,20,false,0xffffff);
+			var bmp:BitmapData = new BitmapData(20,20,false,0x000000);
 			writingPixels = bmp.getPixels(new Rectangle(0,0,20,20));
 			addChild(backgroundImage);
 			
@@ -72,7 +73,8 @@ package game
 			
 			// create snakes
 			_players = new Array;
-			_players.push(new Snake(1,70,300,300,0x00ff00,false,"red"));
+			_players.push(new Snake(1,70,300,300,0x00ff00,false,"green",37,39,new Point(1,0)));
+			_players.push(new Snake(1,70,700,500,0xff0000,false,"red",65,83,new Point(-1,0)));
 			
 			for(var i:int=0;i<_players.length;i++)
 				addChild(_players[i]);
@@ -107,8 +109,6 @@ package game
 			{
 				FlexGlobals.topLevelApplication.endGame();
 			}
-			hammihammiImage.x=mouseX;
-			hammihammiImage.y=mouseY;
 		}
 		
 		// update gamefield
@@ -116,9 +116,26 @@ package game
 		{
 			//update snakes
 			for(var i:int=0;i<_players.length;i++)
+			{
+				// update pos
 				_players[i].update(dt);
+				
+				// check snakes out of bound
+				var pos:Point = Snake(_players[i]).getPosition;
+				if(pos.x < 0)
+					Snake(_players[i]).position = new Point(mywidth,pos.y);
+					
+				if(pos.y < 0)
+					Snake(_players[i]).position = new Point(pos.x,myheight);
+					
+				if(pos.x > mywidth)
+					Snake(_players[i]).position = new Point(0,pos.y);
+					
+				if(pos.y > myheight)
+					Snake(_players[i]).position = new Point(pos.x,0);
+			}
 			
-			//collision detection
+			//collision detection with hammi hammi
 			for(var i:int=0;i<_players.length;i++) 
 			{
 				var SnakeX:int = Snake(_players[i]).getPosition.x;
@@ -136,6 +153,19 @@ package game
 				}	
 			}
 			
+			// collision detection of snakes
+			for(var me:int=0;me<_players.length;me++) 
+			{
+				//does this snake-head collide?
+				for(var other:int=0;other<_players.length;other++) 
+				{
+					if(other == me) continue; // skip myself
+					if(Snake(_players[other]).checkCollision(Snake(_players[me]).getPosition))
+					{
+						Snake(_players[me]).die();
+					}
+				}
+			}
 			
 		}
 		
@@ -143,7 +173,7 @@ package game
 		public function draw():void
 		{
 			for(var i:int=0;i<_players.length;i++) {
-				var rec:Rectangle = new Rectangle(Snake(_players[i]).getPosition.x,Snake(_players[i]).getPosition.y,20,20);
+				var rec:Rectangle = new Rectangle(Snake(_players[i]).getPosition.x,Snake(_players[i]).getPosition.y,15,15);
 				writingPixels.position = 0;
 				backgroundImage.bitmapData.setPixels(rec,writingPixels);
 			}

@@ -15,35 +15,53 @@ package game
 	public class Snake extends Sprite
 	{
 		private var _score:int;
+		private var _color:uint;
+		private var _startpos:Point;
+		private var _dead:Boolean=false;
 		private var elements:Array = new Array;
-		private var element:ShapeSprite;
 		private var GameSpeed:Number = 0.1;
 		private var direction:Point;
-		public var rightKey:Number = 39;
-		public var leftKey:Number = 37;
+		public var rightKey:Number;
+		public var leftKey:Number;
 		public var playerID:String;
 		private var keyPressedRight:Boolean = false, keyPressedLeft:Boolean = false;
 		
-		public function Snake(player:uint, startlength:uint, startX:Number, startY:Number, color:uint, dead:Boolean, id:String)
+		public function Snake(player:uint, startlength:uint, startX:Number, startY:Number, color:uint, dead:Boolean, id:String, leftkey:int, rightkey:int, startdirection:Point)
 		{	
 			playerID=id;
-			direction = new Point(1,0);
+			_color=color;
+			direction=startdirection;
+			this.rightKey = rightkey;
+			this.leftKey = leftkey;
+			_startpos = new Point(startX,startY);
+			
+			
+			// create Head
+			var head:BodySprite = new BodySprite();
+			elements.push(head);
+			head.x=_startpos.x;
+			head.y=_startpos.y;
+			head.color = _color;
+			addChild(head);
 			
 			addEventListener(Event.ADDED_TO_STAGE, init);
 		
-			for (var i:int = 0; i < startlength; i++)
+			addBodyParts(startlength);			
+		}
+		
+		private function addBodyParts(num:int):void
+		{
+			for (var i:int = 0; i < num; i++)
 			{
-				element = new BodySprite();
+				var element:BodySprite = new BodySprite();
 				
-				elements[i] = element;
-				element.x = startX;
-				element.y = startY;
-				element.color = color;
+				elements.push(element);
+				element.x=-999;
+				element.y=-999;
+				element.color = _color;
 				
 				addChild(element);
 			}
-			
-			
 		}
 			
 		// returns the position of the head of the snake
@@ -53,11 +71,22 @@ package game
 			return point;
 		}
 
+		// set position
+		public function set position(pos:Point):void
+		{
+			elements[0].x = pos.x;
+			elements[0].y = pos.y;
+		}
+
 		public function update(dt:int):void
 		{		
-			var angle:Number = 0.003*dt;
+			if(_dead)
+				return;
+			
+			var angle:Number = 0.002*dt;
 			var counter:int = 0;
 			
+			// steering (rotating the direction)
 			if(keyPressedLeft) {
 				direction.y = Math.cos(Math.atan2(direction.x,direction.y)+angle);
 				direction.x = Math.sin(Math.atan2(direction.x,direction.y)+angle);
@@ -67,17 +96,32 @@ package game
 				direction.x = Math.sin(Math.atan2(direction.x,direction.y)-angle);
 			}
 			
-			
+			// reposition every body parr
 			for(var i:int=elements.length-1; i>=1; i--) {	
+				
+				var direction_part:Point = new Point(elements[i].x-elements[i-1].x,elements[i].y-elements[i-1].y);
+
 				elements[i].x = elements[i-1].x;
 				elements[i].y = elements[i-1].y;
+		
+				// check self collision
+				var dx:int = elements[i].x - elements[0].x;
+				var dy:int = elements[i].y - elements[0].y;
+				
+				var distance:int = Math.sqrt( dx*dx + dy*dy);
+				
+				if(i > 10) 
+				{
+					if(distance < 15 && direction.x/direction.y - direction_part.x/direction_part.y)
+						die();
+				}
 			}
 
 			// move head into new direction
 			elements[0].x += direction.x*dt*GameSpeed;
 			elements[0].y += direction.y*dt*GameSpeed;
 
-			//trace(angle);
+			
 		}
 		
 		private function init(e:Event=null):void
@@ -110,7 +154,29 @@ package game
 			}
 			
 		}
-			
+		
+		public function checkCollision(pos:Point):Boolean
+		{
+			for (var i:int = 0; i < elements.length; i++)
+			{
+				
+				var dx:int = pos.x - elements[i].x;
+				var dy:int = pos.y - elements[i].y;
+				
+				var distance:int = Math.sqrt( dx*dx + dy*dy);
+				
+				if(distance <= 15)
+				{
+					return true;
+				}	
+			}
+			return false;
+		}
+		
+		public function die():void
+		{
+			_dead=true;
+		}
 		
 		public function get score():int
 		{
@@ -119,6 +185,7 @@ package game
 
 		public function set score(value:int):void
 		{
+			addBodyParts(20);
 			_score = value;
 		}
 
