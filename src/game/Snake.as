@@ -24,9 +24,12 @@ package game
 		private var tail:Point = new Point(100,100);
 		private var direction:Point = new Point(_head.x-tail.x,_head.y-tail.y);
 		private var keyPressed:Boolean = false;
+		public var playerID:String;
 		
-		public function Snake(player:uint, startlength:uint, x:Number, y:Number, color:uint, dead:Boolean)
+		public function Snake(player:uint, startlength:uint, x:Number, y:Number, color:uint, dead:Boolean, id:String)
 		{	
+			playerID=id;
+			
 			if (stage)
 				init();
 			else

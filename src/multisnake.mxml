@@ -7,10 +7,11 @@
 	<fx:Script>
 		<![CDATA[
 			import game.Game;
+			import game.Snake;
 			
 			import mx.core.FlexGlobals;
 			import mx.core.UIComponent;
-			private var game:Game;
+			private var theGame:Game;
 			
 			private function fullscreen():void {
 				//FlexGlobals.topLevelApplication.stage.displayState = StageDisplayState.FULL_SCREEN;
@@ -18,13 +19,54 @@
 			
 			private function startGame():void {
 				currentState="Game";
-				game = new Game;
-				gameContainer.addChild(game);
-				game
+				theGame = new Game;
+				gameContainer.addChild(theGame);
 			}
 			
 			public function endGame():void {
 				currentState="Scores";
+				var players:Array = theGame.getPlayers();
+				for(var i:int;i<players.length;i++) {
+					
+					var x:int;
+					var y:int;
+					
+					switch(i) {
+						case 0:
+							x=323;
+							y=167;
+							break;
+						case 1:
+							x=243;
+							y=187;
+							break;
+						case 2:
+							x=401;
+							y=208;
+							break;
+						default:
+							x=551;
+							y=263;
+					}
+					
+					switch(Snake(players[i]).playerID){
+						case "red":
+							red_player.x=x;
+							red_player.y=y;
+							break;
+						case "green":
+							green_player.x=x;
+							green_player.y=y;
+							break;
+						case "yellow":
+							yellow_player.x=x;
+							yellow_player.y=y;
+							break;
+						case "blue":
+							blue_player.x=x;
+							blue_player.y=y;
+					}
+				}
 			}
 		]]>
 	</fx:Script>
@@ -45,10 +87,10 @@
 	
 	<s:Group includeIn="Scores" horizontalCenter="-0" verticalCenter="0">
 		<mx:Image includeIn="Scores" source="../assets/stairs.png" horizontalCenter="0" verticalCenter="44"/>
-		<mx:Image includeIn="Scores" x="401" y="208" source="../assets/snake_blue.png"/>
-		<mx:Image includeIn="Scores" x="243" y="187" source="../assets/snake_green.png"/>
-		<mx:Image includeIn="Scores" x="323" y="167" source="../assets/snake_red.png"/>
-		<mx:Image includeIn="Scores" x="551" y="263" source="../assets/snake_yellow.png"/>
+		<mx:Image id="blue_player" includeIn="Scores" x="401" y="208" source="../assets/snake_blue.png"/>
+		<mx:Image id="green_player" includeIn="Scores" x="243" y="187" source="../assets/snake_green.png"/>
+		<mx:Image id="red_player" includeIn="Scores" x="323" y="167" source="../assets/snake_red.png"/>
+		<mx:Image id="yellow_player" includeIn="Scores" x="551" y="263" source="../assets/snake_yellow.png"/>
 		<s:Label includeIn="Scores" text="Congratulations!" horizontalCenter="0" verticalCenter="-196" fontFamily="Arial"/>
 	</s:Group>
 </s:Application>

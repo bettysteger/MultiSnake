@@ -19,9 +19,12 @@ package game
 
 			addEventListener(Event.ADDED_TO_STAGE, function():void {
 				stage.addEventListener(Event.ENTER_FRAME, enterFrameHandler);
-			});
+			});		
+		}
 		
-			
+		public function getPlayers():Array
+		{
+			return gamefield.players;
 		}
 	
 		private function enterFrameHandler(e:Event):void 
