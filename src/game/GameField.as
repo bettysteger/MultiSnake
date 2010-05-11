@@ -72,7 +72,7 @@ package game
 			
 			// create snakes
 			_players = new Array;
-			_players.push(new Snake(1,4,300,300,0x00ff00,false,"red"));
+			_players.push(new Snake(1,30,300,300,0x00ff00,false,"red"));
 			
 			for(var i:int=0;i<_players.length;i++)
 				addChild(_players[i]);

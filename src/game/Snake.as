@@ -46,7 +46,7 @@ package game
 				element.x = x;
 				element.y = y;
 				
-				element.x -= element.width*i;
+//				element.x -= element.width*i;
 				
 				element.color = color;
 				
@@ -77,16 +77,17 @@ package game
 				direction.x = Math.sin(Math.atan2(direction.x,direction.y)-angle);
 			}
 			
-			elements[0].x += direction.x*dt*GameSpeed;
-			elements[0].y += direction.y*dt*GameSpeed;
 			
-			for(var i:int=1; i<elements.length; i++) {
-				
+			for(var i:int=elements.length-1; i>=1; i--) {	
 				elements[i].x = elements[i-1].x;
 				elements[i].y = elements[i-1].y;
 			}
 
-			trace(angle);
+			// move head into new direction
+			elements[0].x += direction.x*dt*GameSpeed;
+			elements[0].y += direction.y*dt*GameSpeed;
+
+			//trace(angle);
 		}
 		
 		private function init(e:Event=null):void
