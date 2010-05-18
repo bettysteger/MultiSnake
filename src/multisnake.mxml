@@ -2,12 +2,14 @@
 <s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009" 
 					   xmlns:s="library://ns.adobe.com/flex/spark" 
 					   xmlns:mx="library://ns.adobe.com/flex/mx"
-					   applicationComplete="creationcompl()">
+					   applicationComplete="creationcompl()"
+					   showStatusBar="false">
 	<fx:Style source="multisnake.css"/>
 
 	<fx:Script>
 		<![CDATA[
 			import game.Game;
+			import game.GameField;
 			import game.Snake;
 			
 			import mx.core.FlexGlobals;
@@ -34,9 +36,9 @@
 				});
 			}
 			
-			private function startGame():void {
+			private function startGame(nplayers:int):void {
 				currentState="Game";
-				theGame = new Game;
+				theGame = new Game(nplayers);
 				_gameStopped = false;
 				gameContainer.addChild(theGame);
 			}
@@ -48,7 +50,7 @@
 					gameContainer.removeChild(theGame);
 				}catch(e:Error){}
 				var players:Array = theGame.getPlayers();
-				for(var i:int;i<players.length;i++) {
+				for(var i:int = 0;i<players.length;i++) {
 					trace("PLACE "+i+": "+Snake(players[i]).playerID+" with score: "+Snake(players[i]).score);
 					var x:int;
 					var y:int;
@@ -69,7 +71,7 @@
 							y=208;
 							third.text = Snake(players[i]).playerID+": "+Snake(players[i]).score;
 							break;
-						default:
+						case 3:
 							x=551;
 							y=263;
 							fourth.text = Snake(players[i]).playerID+": "+Snake(players[i]).score;
@@ -103,9 +105,13 @@
 		<s:State name="Scores"/>
 	</s:states>
 	
-	<s:VGroup includeIn="Start" height="100%" width="100%" verticalAlign="middle">
-		<s:HGroup width="100%" horizontalAlign="center">
-			<s:Button  label="Start Game" width="591" height="157" x="275" click="fullscreen();startGame();"/>
+	<s:VGroup includeIn="Start" height="100%" width="100%" verticalAlign="middle" horizontalAlign="center">
+		<s:HGroup>
+			<s:Button label="2 Players" width="591" height="140" click="fullscreen();startGame(2);"/>
+		</s:HGroup>
+		<s:HGroup>
+			<s:Button label="3 Players" width="591" height="140" click="fullscreen();startGame(3);"/>
+			<s:Button label="4 Players" width="591" height="140" click="fullscreen();startGame(4);"/>
 		</s:HGroup>
 	</s:VGroup>
 	
@@ -126,5 +132,5 @@
 		</s:VGroup>
 
 	</s:Group>
-	<s:Button includeIn="Scores" label="Restart Game" fontSize="15" horizontalCenter="0" bottom="20" click="startGame()"/>
+	<s:Button includeIn="Scores" label="Restart Game" fontSize="15" horizontalCenter="0" bottom="20" click="currentState='Start'"/>
 </s:WindowedApplication>

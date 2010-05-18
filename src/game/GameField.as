@@ -73,8 +73,9 @@ package game
 //		private var score_label_p4:Label;
 		
 		public static var GAME_END:String = "GAME_END";
+		static public var dead_count:int = 0;
 		
-		public function GameField()
+		public function GameField(nplayers:int = 1)
 		{
 			backgroundChannel = backgroundSound.play(0,99999);
 			var soundTransform:SoundTransform = backgroundChannel.soundTransform;
@@ -113,13 +114,16 @@ package game
 			
 			// create snakes
 			_players = new Array;
-			_players.push(new Snake("green",70,50,50,0x00ff00,false,37,39,new Point(1,0))); // LEFT RIGHT
-			_players.push(new Snake("red",70,mywidth-50,myheight-50,0xff0000,false,65,83,new Point(-1,0))); // A S
-			_players.push(new Snake("yellow",70,50,myheight-50,0xffff00,false,71,72,new Point(1,0))); // G H
-			_players.push(new Snake("blue",70,mywidth-50,50,0x0000ff,false,81,87,new Point(-1,0))); // ALT STRG
+			var snakes:Array = new Array;
+			snakes.push(new Snake("green",70,50,50,0x00ff00,false,37,39,new Point(1,0))); // LEFT RIGHT
+			snakes.push(new Snake("red",70,mywidth-50,myheight-50,0xff0000,false,65,83,new Point(-1,0))); // A S
+			snakes.push(new Snake("yellow",70,50,myheight-50,0xffff00,false,71,72,new Point(1,0))); // G H
+			snakes.push(new Snake("blue",70,mywidth-50,50,0x0000ff,false,81,87,new Point(-1,0))); // ALT STRG
 			
-			for(var i:int=0;i<_players.length;i++)
+			for(var i:int=0;i<nplayers;i++) {
+				_players.push(snakes[i]);
 				addChild(_players[i]);
+			}
 			
 			// add keyboard event listener
 			addEventListener(Event.ADDED_TO_STAGE, function():void {
@@ -168,7 +172,7 @@ package game
 				return;
 			
 			// check if at least N-1 snakes are alive
-			var dead_count:int = 0;
+			dead_count = 0;
 			
 			//update snakes
 			for(var i:int=0;i<_players.length;i++)

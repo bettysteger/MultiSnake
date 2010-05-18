@@ -12,9 +12,9 @@ package game
 		private var last_frame_time:Number;
 		private var gamefield:GameField;
 		
-		public function Game()
+		public function Game(nplayers:int)
 		{
-			gamefield = new GameField;
+			gamefield = new GameField(nplayers);
 			addChild(gamefield);
 
 			addEventListener(Event.ADDED_TO_STAGE, function():void {
