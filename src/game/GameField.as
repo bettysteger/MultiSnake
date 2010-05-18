@@ -6,6 +6,7 @@ package game
 	import flash.events.Event;
 	import flash.events.KeyboardEvent;
 	import flash.events.MouseEvent;
+	import flash.events.TimerEvent;
 	import flash.geom.Matrix;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
@@ -14,10 +15,13 @@ package game
 	import flash.media.SoundTransform;
 	import flash.sampler.NewObjectSample;
 	import flash.utils.ByteArray;
+	import flash.utils.Timer;
 	
 	import mx.controls.Image;
 	import mx.controls.Label;
 	import mx.core.FlexGlobals;
+	
+	import org.osmf.events.TimeEvent;
 	
 	import spark.primitives.BitmapImage;
 	import spark.primitives.Rect;
@@ -42,10 +46,17 @@ package game
 		private var writingPixels:ByteArray;
 		private var _players:Array;
 		private var _gameEnded:Boolean = false;
+		public var hammiTimer:Timer = new Timer(1000);
+		private var hammiblink:Boolean = false;
 		
 		[Embed(source="assets/eat.mp3")]
 		private var sndClass:Class;
 		private var eatSound:Sound = new sndClass();
+		
+		[Embed(source="assets/alarm.mp3")]
+		private var alarmSndClass:Class;
+		private var alarmSound:Sound = new alarmSndClass();
+		private var alarmChannel:SoundChannel = new SoundChannel();
 
 		[Embed(source="assets/background.mp3")]
 		private var bkgsndClass:Class;
@@ -85,6 +96,10 @@ package game
 			hammihammiImage.height=30;
 			replaceHammiHammi();
 			addChild(hammihammiImage);
+			hammiTimer.start();
+			
+			hammiTimer.addEventListener(TimerEvent.TIMER,timerHandler);
+			
 			
 			//position score labels
 //			score_label_p1 = new Label();
@@ -241,8 +256,43 @@ package game
 		// Place HammiHammi somewhere on the screen
 		private function replaceHammiHammi():void 
 		{
+			hammiTimer.reset();
+			hammiTimer.start();
+			hammiblink = false;
+			alarmChannel.stop();
 			hammihammiImage.x=Math.random()*(mywidth-50)+25;
 			hammihammiImage.y=Math.random()*(myheight-50)+25;
+		}
+		
+		public function blinkHammiHammi():void {
+//			if((hammihammiImage.visible) && (hammihammiblink >= 10)) {
+//				hammihammiImage.visible = false;
+//				hammihammiblink = 0;				
+//			}
+//			else if((!hammihammiImage.visible) && (hammihammiblink >= 10)) {
+//				hammihammiImage.visible = true;
+//				hammihammiblink = 0;
+//			}
+//				hammihammiblink++;
+			if(hammihammiImage.alpha > 0.5)
+				hammihammiImage.alpha = 0.5;
+			else
+				hammihammiImage.alpha = 1;
+					
+		}
+		
+		private function timerHandler(e:Event):void {
+			if(e.target.currentCount > 10) {
+				if(!hammiblink)
+					alarmChannel = alarmSound.play();
+				hammiblink = true;
+				blinkHammiHammi();
+			}
+			if(e.target.currentCount > 20) {
+				hammihammiImage.alpha = 1;
+				replaceHammiHammi();
+			}		
+			
 		}
 	}
 }
