@@ -123,8 +123,9 @@ package game
 				
 				if(i > 10) 
 				{
-					if(distance < 15 && direction.x/direction.y - direction_part.x/direction_part.y)
+					if(distance < 15 && direction.x/direction.y - direction_part.x/direction_part.y){
 						die();
+					}					
 				}
 			}
 
@@ -186,9 +187,14 @@ package game
 		
 		public function die():void
 		{
-			if(!_dead)
-				dieSound.play(0,0,null);
+			if(_dead)
+				return;
+			
+			dieSound.play(0,0,null);
 			_dead=true;
+			if(GameField.dead_count == 0) score -= 3;
+			else if(GameField.dead_count == 1) score -= 2;
+			else if(GameField.dead_count == 2) score -= 1;
 		}
 		
 		public function get score():int
