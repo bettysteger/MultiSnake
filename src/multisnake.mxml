@@ -58,18 +58,22 @@
 						case 0:
 							x=323;
 							y=167;
+							first.text = Snake(players[i]).playerID+": "+Snake(players[i]).score;
 							break;
 						case 1:
 							x=243;
 							y=187;
+							second.text = Snake(players[i]).playerID+": "+Snake(players[i]).score;
 							break;
 						case 2:
 							x=401;
 							y=208;
+							third.text = Snake(players[i]).playerID+": "+Snake(players[i]).score;
 							break;
 						default:
 							x=551;
 							y=263;
+							fourth.text = Snake(players[i]).playerID+": "+Snake(players[i]).score;
 					}
 					
 					switch(Snake(players[i]).playerID){
@@ -115,6 +119,13 @@
 		<mx:Image id="red_player" includeIn="Scores" x="323" y="167" source="@Embed(source='../assets/snake_red.png')"/>
 		<mx:Image id="yellow_player" includeIn="Scores" x="551" y="263" source="@Embed(source='../assets/snake_yellow.png')"/>
 		<s:Label includeIn="Scores" text="Congratulations!" horizontalCenter="0" verticalCenter="-196" fontFamily="Arial"/>
+		<s:VGroup right="0" bottom="0" fontFamily="Arial" fontSize="15">
+			<s:Label id="first" includeIn="Scores" />
+			<s:Label id="second" includeIn="Scores" />
+			<s:Label id="third" includeIn="Scores" />
+			<s:Label id="fourth" includeIn="Scores" />
+		</s:VGroup>
+
 	</s:Group>
 	<s:Button includeIn="Scores" label="Restart Game" fontSize="15" horizontalCenter="0" bottom="20" click="startGame()"/>
 </s:WindowedApplication>

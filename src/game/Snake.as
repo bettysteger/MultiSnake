@@ -32,7 +32,7 @@ package game
 		public var sndClass:Class;
 		public var dieSound:Sound = new sndClass();
 		
-		public function Snake(player:uint, startlength:uint, startX:Number, startY:Number, color:uint, dead:Boolean, id:String, leftkey:int, rightkey:int, startdirection:Point)
+		public function Snake(id:String, startlength:uint, startX:Number, startY:Number, color:uint, dead:Boolean, leftkey:int, rightkey:int, startdirection:Point)
 		{	
 			playerID=id;
 			_color=color;
@@ -107,7 +107,7 @@ package game
 				direction.x = Math.sin(Math.atan2(direction.x,direction.y)-angle);
 			}
 			
-			// reposition every body parr
+			// reposition every body part
 			for(var i:int=elements.length-1; i>=1; i--) {	
 				
 				var direction_part:Point = new Point(elements[i].x-elements[i-1].x,elements[i].y-elements[i-1].y);
