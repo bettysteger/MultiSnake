@@ -213,10 +213,10 @@ package game
 			}
 				
 			//collision detection with hammi hammi
-			for(var i:int=0;i<_players.length;i++) 
+			for(var j:int=0;j<_players.length;j++) 
 			{
-				var SnakeX:int = Snake(_players[i]).getPosition.x;
-				var SnakeY:int = _players[i].getPosition.y;
+				var SnakeX:int = Snake(_players[j]).getPosition.x;
+				var SnakeY:int = _players[j].getPosition.y;
 				
 				var dx:int = SnakeX - hammihammiImage.x;
 				var dy:int = SnakeY - hammihammiImage.y;
@@ -225,7 +225,7 @@ package game
 				
 				if(distance_snake_hammihammi <= 20)
 				{
-					Snake(_players[i]).score += 1;
+					Snake(_players[j]).score += 1;
 					replaceHammiHammi();
 					eatSound.play();
 				}	

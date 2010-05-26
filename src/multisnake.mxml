@@ -106,12 +106,21 @@
 	</s:states>
 	
 	<s:VGroup includeIn="Start" height="100%" width="100%" verticalAlign="middle" horizontalAlign="center">
-		<s:HGroup>
-			<s:Button label="2 Players" width="591" height="140" click="fullscreen();startGame(2);"/>
+		<s:Label text="How many Players?" paddingBottom="120" />
+		<s:HGroup buttonMode="true" click="fullscreen();startGame(2);" paddingBottom="40" width="100%" horizontalAlign="center">
+			<mx:Image source="@Embed(source='../assets/snake_green.png')"/>
+			<mx:Image source="@Embed(source='../assets/snake_red.png')"/>
 		</s:HGroup>
-		<s:HGroup>
-			<s:Button label="3 Players" width="591" height="140" click="fullscreen();startGame(3);"/>
-			<s:Button label="4 Players" width="591" height="140" click="fullscreen();startGame(4);"/>
+		<s:HGroup buttonMode="true" click="fullscreen();startGame(3);" paddingBottom="40" width="100%" horizontalAlign="center">
+			<mx:Image source="@Embed(source='../assets/snake_green.png')"/>
+			<mx:Image source="@Embed(source='../assets/snake_red.png')"/>
+			<mx:Image source="@Embed(source='../assets/snake_yellow.png')"/>
+		</s:HGroup>
+		<s:HGroup buttonMode="true" click="fullscreen();startGame(4);" width="100%" horizontalAlign="center">
+			<mx:Image source="@Embed(source='../assets/snake_green.png')"/>
+			<mx:Image source="@Embed(source='../assets/snake_red.png')"/>
+			<mx:Image source="@Embed(source='../assets/snake_yellow.png')"/>
+			<mx:Image source="@Embed(source='../assets/snake_blue.png')"/>
 		</s:HGroup>
 	</s:VGroup>
 	
