@@ -32,7 +32,9 @@
 						callLater(startGame);
 					}
 					if(e.keyCode == 49) // 1 KEY
-						fullscreen();					
+						fullscreen();	
+					if(e.keyCode == 13 && currentState=='Scores') // ENTER
+						currentState='Start';	
 				});
 			}
 			
@@ -59,40 +61,50 @@
 						case 0:
 							x=323;
 							y=167;
-							first.text = Snake(players[i]).playerID+": "+Snake(players[i]).score;
+							first.text = ""+Snake(players[i]).score;
+							first.x = x+17;
 							break;
 						case 1:
 							x=243;
 							y=187;
-							second.text = Snake(players[i]).playerID+": "+Snake(players[i]).score;
+							second.text = ""+Snake(players[i]).score;
+							second.x = x+15;
 							break;
 						case 2:
 							x=401;
 							y=208;
-							third.text = Snake(players[i]).playerID+": "+Snake(players[i]).score;
+							third.text = ""+Snake(players[i]).score;
+							third.x = x+15;
 							break;
 						case 3:
 							x=551;
 							y=263;
-							fourth.text = Snake(players[i]).playerID+": "+Snake(players[i]).score;
+							fourth.text = ""+Snake(players[i]).score;
+							fourth.x = x+30;
+							break;
 					}
-					
+
 					switch(Snake(players[i]).playerID){
 						case "red":
 							red_player.x=x;
 							red_player.y=y;
+							red_player.visible = true;
 							break;
 						case "green":
 							green_player.x=x;
 							green_player.y=y;
+							green_player.visible = true;
 							break;
 						case "yellow":
 							yellow_player.x=x;
 							yellow_player.y=y;
+							yellow_player.visible = true;
 							break;
 						case "blue":
 							blue_player.x=x;
 							blue_player.y=y;
+							blue_player.visible = true;
+							break;
 					}
 				}
 			}
@@ -106,27 +118,43 @@
 	</s:states>
 	
 	<s:VGroup includeIn="Start" height="100%" width="100%" verticalAlign="middle" horizontalAlign="center">
-		<s:Label text="How many Players?" paddingBottom="120" />
-			<mx:Image source="@Embed(source='../assets/2players.png')"  click="fullscreen();startGame(2);" useHandCursor="true" buttonMode="true"/>
-			<mx:Image source="@Embed(source='../assets/3players.png')" click="fullscreen();startGame(3);" useHandCursor="true" buttonMode="true"/>
-			<mx:Image source="@Embed(source='../assets/4players.png')"  click="fullscreen();startGame(4);" useHandCursor="true" buttonMode="true"/>
+		<s:Label text="How many Players?" paddingBottom="70" />
+		<mx:Image id="twoplayers" source="@Embed(source='../assets/2players.png')"
+				  click="fullscreen();startGame(2);"
+				  useHandCursor="true" buttonMode="true"
+				  mouseOver="{twoplayers.alpha=0.7}"
+				  mouseOut="{twoplayers.alpha=1}"/>
+		<mx:Spacer height="30" />
+		<mx:Image id="threeplayers" source="@Embed(source='../assets/3players.png')"
+				  click="fullscreen();startGame(3);"
+				  useHandCursor="true" buttonMode="true"
+				  mouseOver="{threeplayers.alpha=0.7}"
+				  mouseOut="{threeplayers.alpha=1}"/>
+		<mx:Spacer height="30" />
+		<mx:Image id="fourplayers" source="@Embed(source='../assets/4players.png')"
+				  click="fullscreen();startGame(4);"
+				  useHandCursor="true" buttonMode="true"
+				  mouseOver="{fourplayers.alpha=0.7}"
+				  mouseOut="{fourplayers.alpha=1}"/>
 	</s:VGroup>
 	
 	<mx:UIComponent width="100%" height="100%" includeIn="Game" id="gameContainer" />
 	
-	<s:Group includeIn="Scores" horizontalCenter="-0" verticalCenter="0">
-		<mx:Image includeIn="Scores" source="@Embed(source='../assets/stairs.png')" horizontalCenter="0" verticalCenter="44"/>
-		<mx:Image id="blue_player" includeIn="Scores" x="401" y="208" source="@Embed(source='../assets/snake_blue.png')"/>
-		<mx:Image id="green_player" includeIn="Scores" x="243" y="187" source="@Embed(source='../assets/snake_green.png')"/>
-		<mx:Image id="red_player" includeIn="Scores" x="323" y="167" source="@Embed(source='../assets/snake_red.png')"/>
-		<mx:Image id="yellow_player" includeIn="Scores" x="551" y="263" source="@Embed(source='../assets/snake_yellow.png')"/>
-		<s:Label includeIn="Scores" text="Congratulations!" horizontalCenter="0" verticalCenter="-196" fontFamily="Arial"/>
-		<s:VGroup right="0" bottom="0" fontFamily="Arial" fontSize="15">
-			<s:Label id="first" includeIn="Scores" />
-			<s:Label id="second" includeIn="Scores" />
-			<s:Label id="third" includeIn="Scores" />
-			<s:Label id="fourth" includeIn="Scores" />
-		</s:VGroup>
+	<s:Group includeIn="Scores" horizontalCenter="0" verticalCenter="0">
+		<s:Label text="Congratulations!" horizontalCenter="0" verticalCenter="-196" fontFamily="Arial"/>
+		
+		<mx:Image id="stairs" source="@Embed(source='../assets/stairs.png')" horizontalCenter="0" verticalCenter="44"/>
+		<mx:Image id="blue_player" visible="false" source="@Embed(source='../assets/snake_blue.png')"/>
+		<mx:Image id="green_player" visible="false" source="@Embed(source='../assets/snake_green.png')"/>
+		<mx:Image id="red_player" visible="false" source="@Embed(source='../assets/snake_red.png')"/>
+		<mx:Image id="yellow_player" visible="false" source="@Embed(source='../assets/snake_yellow.png')"/>
+		<s:Group width="100%" fontSize="20" y="{stairs.y+stairs.height+20}">
+			<s:Label text="Points: " />
+			<s:Label id="first" />
+			<s:Label id="second" />
+			<s:Label id="third" />
+			<s:Label id="fourth" />
+		</s:Group>
 
 	</s:Group>
 	<s:Button includeIn="Scores" label="Restart Game" fontSize="15" horizontalCenter="0" bottom="20" click="currentState='Start'"/>
