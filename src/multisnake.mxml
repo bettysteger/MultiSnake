@@ -18,6 +18,7 @@
 			private var _gameStopped:Boolean = true;
 			public var window_width:int;
 			public var window_height:int;
+			private var i:int = 2;
 			
 			private function fullscreen():void {
 				FlexGlobals.topLevelApplication.stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
@@ -27,15 +28,44 @@
 				fullscreen();
 				window_width=stage.width;
 				window_height=stage.height;
-				stage.addEventListener(KeyboardEvent.KEY_DOWN, function(e:KeyboardEvent):void {
-					if(e.keyCode == 9 && _gameStopped) { // TABULATOR KEY
-						callLater(startGame);
-					}
-					if(e.keyCode == 49) // 1 KEY
-						fullscreen();	
-					if(e.keyCode == 13 && currentState=='Scores') // ENTER
-						currentState='Start';	
-				});
+				stage.focus = stage;
+				stage.addEventListener(KeyboardEvent.KEY_DOWN, keyHandler);
+				twoplayers.alpha=0.7;
+			}
+			
+			private function keyHandler(e:KeyboardEvent):void {
+				if(e.keyCode == 9 && _gameStopped) { // TABULATOR KEY
+					callLater(startGame);
+				}
+				if(e.keyCode == 49) // 1 KEY
+					fullscreen();	
+				if(e.keyCode == 50 && currentState=='Start') // 2 Key
+					startGame(2);
+				if(e.keyCode == 51 && currentState=='Start') // 3 Key
+					startGame(3);
+				if(e.keyCode == 52 && currentState=='Start') // 4 Key
+					startGame(4);
+				if(e.keyCode == 13 && currentState=='Scores') // ENTER
+					startScreen();
+				
+				if((e.keyCode == 39 || e.keyCode == 40) && currentState=='Start')  // right or down Key
+					i++;
+				
+				twoplayers.alpha=1;
+				threeplayers.alpha=1;
+				fourplayers.alpha=1;
+				if (i==2) twoplayers.alpha=0.7;
+				else if(i==3) threeplayers.alpha=0.7;
+				else if(i==4) {
+					fourplayers.alpha=0.7;	
+				}
+				else {
+					i=2;
+					twoplayers.alpha=0.7;
+				}
+				
+				if(e.keyCode == 13 && currentState=='Start') // ENTER
+					startGame(i);
 			}
 			
 			private function startGame(nplayers:int):void {
@@ -108,6 +138,12 @@
 					}
 				}
 			}
+			
+			private function startScreen():void {
+				currentState='Start';
+				stage.focus = stage;
+				stage.addEventListener(KeyboardEvent.KEY_DOWN, keyHandler);
+			}
 		]]>
 	</fx:Script>
 	
@@ -123,7 +159,10 @@
 				  click="fullscreen();startGame(2);"
 				  useHandCursor="true" buttonMode="true"
 				  mouseOver="{twoplayers.alpha=0.7}"
-				  mouseOut="{twoplayers.alpha=1}"/>
+				  mouseOut="{twoplayers.alpha=1}"
+				  
+				  
+				  />
 		<mx:Spacer height="30" />
 		<mx:Image id="threeplayers" source="@Embed(source='../assets/3players.png')"
 				  click="fullscreen();startGame(3);"
@@ -157,5 +196,5 @@
 		</s:Group>
 
 	</s:Group>
-	<s:Button includeIn="Scores" label="Restart Game" fontSize="15" horizontalCenter="0" bottom="20" click="currentState='Start'"/>
+	<s:Button includeIn="Scores" label="Restart Game" fontSize="15" horizontalCenter="0" bottom="20" click="startScreen()"/>
 </s:WindowedApplication>
