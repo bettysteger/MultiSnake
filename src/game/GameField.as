@@ -226,6 +226,7 @@ package game
 				if(distance_snake_hammihammi <= 20)
 				{
 					Snake(_players[j]).score += 1;
+					hammihammiImage.alpha = 1;
 					replaceHammiHammi();
 					eatSound.play();
 				}	
@@ -262,22 +263,13 @@ package game
 		{
 			hammiTimer.reset();
 			hammiTimer.start();
-			hammiblink = false;
 			alarmChannel.stop();
+			hammiblink = false;
 			hammihammiImage.x=Math.random()*(mywidth-50)+25;
 			hammihammiImage.y=Math.random()*(myheight-50)+25;
 		}
 		
 		public function blinkHammiHammi():void {
-//			if((hammihammiImage.visible) && (hammihammiblink >= 10)) {
-//				hammihammiImage.visible = false;
-//				hammihammiblink = 0;				
-//			}
-//			else if((!hammihammiImage.visible) && (hammihammiblink >= 10)) {
-//				hammihammiImage.visible = true;
-//				hammihammiblink = 0;
-//			}
-//				hammihammiblink++;
 			if(hammihammiImage.alpha > 0.5)
 				hammihammiImage.alpha = 0.5;
 			else
@@ -294,6 +286,7 @@ package game
 			}
 			if(e.target.currentCount > 20) {
 				hammihammiImage.alpha = 1;
+				hammiblink = false;
 				replaceHammiHammi();
 			}		
 			
