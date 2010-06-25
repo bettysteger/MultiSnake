@@ -45,8 +45,6 @@
 					startGame(3);
 				if(e.keyCode == 52 && currentState=='Start') // 4 Key
 					startGame(4);
-				if(e.keyCode == 13 && currentState=='Scores') // ENTER
-					startScreen();
 				
 				if((e.keyCode == 39 || e.keyCode == 40) && currentState=='Start')  // right or down Key
 					i++;
@@ -66,6 +64,8 @@
 				
 				if(e.keyCode == 13 && currentState=='Start') // ENTER
 					startGame(i);
+				if(e.keyCode == 13 && currentState=='Scores') // ENTER
+					startScreen();
 			}
 			
 			private function startGame(nplayers:int):void {
