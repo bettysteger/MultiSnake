@@ -93,8 +93,8 @@ package game
 			
 			// create hammihammi image
 			hammihammiImage.smoothing=true;
-			hammihammiImage.width=40;
-			hammihammiImage.height=30;
+			hammihammiImage.width=50;
+			hammihammiImage.height=50;
 			replaceHammiHammi();
 			addChild(hammihammiImage);
 			hammiTimer.start();
